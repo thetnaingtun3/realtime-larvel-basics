@@ -2,40 +2,24 @@
 
 namespace App\Events;
 
-use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class Example implements ShouldBroadcast
+class OrderDispatched
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public string $queue = "chat";
 
     /**
      * Create a new event instance.
      */
-    public function __construct(protected User $user)
+    public function __construct()
     {
         //
-    }
-    public function broadcastWith(): array
-    {
-
-        return [
-
-            'user' => [
-                'id' => $this->user->id,
-                'name' => $this->user->name
-
-            ]
-        ];
     }
 
     /**
@@ -46,7 +30,7 @@ class Example implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('chat'),
+            new PrivateChannel('channel-name'),
         ];
     }
 }
