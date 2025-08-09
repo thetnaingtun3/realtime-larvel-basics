@@ -10,16 +10,17 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderDispatched implements ShouldBroadcastNow
+class OrderDelivered implements ShouldBroadcastNow
 {
-    use Dispatchable;
-    use InteractsWithSockets;
-    use SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public User $user, public Order $order) {}
+    public function __construct(public User $user, public Order $order)
+    {
+        //
+    }
 
     /**
      * Get the channels the event should broadcast on.
@@ -29,7 +30,8 @@ class OrderDispatched implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('users.'.$this->user->id),
+
+            new PrivateChannel('users.' . $this->user->id),
         ];
     }
 }
